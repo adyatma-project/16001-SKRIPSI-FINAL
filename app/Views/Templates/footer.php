@@ -29,7 +29,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Apakah Anda Yakin Ingin Keluar?</h5>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">—</span>
+                    <span aria-hidden="true">â€”</span>
                 </button>
             </div>
             <div class="modal-body">Silahkan Klik Tombol "Keluar" Dibawah Jika Anda Ingin Keluar Dari Aplikasi</div>
@@ -81,25 +81,27 @@ for ($i = 1; $i < 13; $i++) {
 }
 ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
-<script>
-    var ctx = document.getElementById("chart5");
-    var myBarChart = new Chart(ctx, {
+
+
+<script type="text/javascript">
+    const chartSiswa = document.getElementById('cshart5').getContext('2d');
+    const chart = new Chart(chartSiswa, {
         type: 'bar',
         data: {
             labels: ["January", "February", "March", "April", "May", "June", "Juli", "Agustus", "September", "Oktober", "November", "Desember"],
+            // data tahun sebagai label dari chart
             datasets: [{
-                label: "Revenue",
+                label: 'Jumlah Order 5,5 Kg',
                 backgroundColor: "#4e73df",
                 hoverBackgroundColor: "#2e59d9",
                 borderColor: "#4e73df",
                 data: [<?php
                         $db      = \Config\Database::connect();
-                        $builder = $db->table('master_order');
-
+                        $builder = $db->table('master_order');$thn = date('Y');
                         for ($i = 1; $i < 13; $i++) {
                             $builder->where('bulan =', $i);
                             // $builder->where('id_outlet =', 53);
-                            $builder->where('tahun =', 2019);
+                            $builder->where('tahun =', $thn);
                             $builder->selectSum('order_55');
                             $query = $builder->get();
                             foreach ($query->getResultArray() as $row) {
@@ -108,9 +110,10 @@ for ($i = 1; $i < 13; $i++) {
                             }
                         }
                         ?>],
-            }],
+            }]
         },
         options: {
+            responsive: false,
             maintainAspectRatio: false,
             layout: {
                 padding: {
@@ -120,65 +123,159 @@ for ($i = 1; $i < 13; $i++) {
                     bottom: 0
                 }
             },
+
             scales: {
-                xAxes: [{
-                    time: {
-                        unit: 'month'
-                    },
-                    gridLines: {
-                        display: false,
-                        drawBorder: false
-                    },
-                    ticks: {
-                        maxTicksLimit: 12
-                    },
-                    maxBarThickness: 25,
-                }],
                 yAxes: [{
                     ticks: {
                         min: 0,
-                        max: 15000,
-                        maxTicksLimit: 12,
+                        max: 10000,
+                        maxTicksLimit: 5,
                         padding: 10,
-                        // Include a dollar sign in the ticks
-                        callback: function(value, index, values) {
-                            return number_format(value + 'unit');
-                        }
-                    },
-                    gridLines: {
-                        color: "rgb(234, 236, 244)",
-                        zeroLineColor: "rgb(234, 236, 244)",
-                        drawBorder: false,
-                        borderDash: [2],
-                        zeroLineBorderDash: [2]
+
+                        beginAtZero: true
                     }
-                }],
-            },
-            legend: {
-                display: false
-            },
-            tooltips: {
-                titleMarginBottom: 10,
-                titleFontColor: '#6e707e',
-                titleFontSize: 14,
-                backgroundColor: "rgb(255,255,255)",
-                bodyFontColor: "#858796",
-                borderColor: '#dddfeb',
-                borderWidth: 1,
-                xPadding: 15,
-                yPadding: 15,
-                displayColors: false,
-                caretPadding: 10,
-                callbacks: {
-                    label: function(tooltipItem, chart) {
-                        var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                        return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
-                    }
-                }
-            },
+                }]
+            }
         }
     });
 </script>
+
+
+<script>
+        $(function () {
+            var ctx = document.getElementById("chart12").getContext('2d');
+            var data = {
+                datasets: [{
+                    data: [<?php
+                        $db      = \Config\Database::connect();
+                        $builder = $db->table('master_order');$thn = date('Y');
+                        for ($i = 1; $i < 13; $i++) {
+                            $builder->where('bulan =', $i);
+                            // $builder->where('id_outlet =', 53);
+                            $builder->where('tahun =', $thn);
+                            $builder->selectSum('order_12');
+                            $query = $builder->get();
+                            foreach ($query->getResultArray() as $row) {
+                                $data = $row['order_12'];
+                                echo $data . ',';
+                            }
+                        }
+                        ?>],
+                         label: 'Jumlah Transaksi 12 Kg',
+                         backgroundColor: "#4e73df",
+                hoverBackgroundColor: "#2e59d9",
+                borderColor: "#4e73df",
+                }],
+                options: {
+            responsive: false,
+            maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    left: 10,
+                    right: 25,
+                    top: 25,
+                    bottom: 0
+                }
+            },
+
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        max: 10000,
+                        maxTicksLimit: 5,
+                        padding: 10,
+
+                        beginAtZero: true
+                    }
+                }]
+            }
+        },
+                labels: ["January", "February", "March", "April", "May", "June", "Juli", "Agustus", "September", "Oktober", "November", "Desember"],
+           
+            };
+            var myDoughnutChart = new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: {
+                    maintainAspectRatio: false,
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            boxWidth: 12
+                        }
+                    }
+                }
+            });
+
+            var ctx_2 = document.getElementById("chart5").getContext('2d');
+            var data_2 = {
+                datasets: [{
+                    data: [<?php
+                        $db      = \Config\Database::connect();
+                        $builder = $db->table('master_order');$thn = date('Y');
+                        for ($i = 1; $i < 13; $i++) {
+                            $builder->where('bulan =', $i);
+                            // $builder->where('id_outlet =', 53);
+                            $builder->where('tahun =', $thn);
+                            $builder->selectSum('order_55');
+                            $query = $builder->get();
+                            foreach ($query->getResultArray() as $row) {
+                                $data = $row['order_55'];
+                                echo $data . ',';
+                            }
+                        }
+                        ?>],
+                         label: 'Jumlah Transaksi 5,5 Kg',
+                         backgroundColor: "#4e73df",
+                hoverBackgroundColor: "#2e59d9",
+                borderColor: "#4e73df",
+                }],
+                options: {
+            responsive: false,
+            maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    left: 10,
+                    right: 25,
+                    top: 25,
+                    bottom: 0
+                }
+            },
+
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        max: 10000,
+                        maxTicksLimit: 5,
+                        padding: 10,
+
+                        beginAtZero: true
+                    }
+                }]
+            }
+        },
+                labels: ["January", "February", "March", "April", "May", "June", "Juli", "Agustus", "September", "Oktober", "November", "Desember"],
+           
+            };
+            var myDoughnutChart_2 = new Chart(ctx_2, {
+                type: 'bar',
+                data: data_2,
+                options: {
+                    maintainAspectRatio: false,
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            boxWidth: 12
+                        }
+                    }
+                }
+            });
+        });
+
+    </script>
+
 
 <!-- Core plugin JavaScript-->
 <script src="<?= base_url(); ?>/vendor/jquery-easing/jquery.easing.min.js"></script>

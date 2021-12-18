@@ -212,7 +212,7 @@ $db      = \Config\Database::connect();
             <div class="col-xl-6 col-md-6 mb-4">
 <div class="row">
   <div class="col-align-self"><a href="<?php echo base_url('ordertransaction/all'); ?>" style="margin-top:5px;" class="  btn btn-primary font-weight-bold"><i class="fas fa-sync-alt"></i> Seluruh Transaksi</a></div>
-  <div class="col-align-self"><a href="<?php echo base_url('ordertransaction/editharga/1'); ?>" class="btn btn-warning ml-2" style="margin-top:5px;"><i class="fas fa-money-bill-wave"></i>Ubah Harga </a></div>
+  <div class="col-align-self"><a href="<?php echo base_url('ordertransaction/editharga/1'); ?>" class="btn btn-warning ml-2" style="margin-top:5px;"><i class="fas fa-money-bill-wave"></i> Ubah Harga </a></div>
   <div class="col-align-self"><form action="<?= base_url('OrderTransaction/exportExcel') ?>" method="POST"><button class="btn btn-success font-weight-bold" style="margin-top:5px; margin-left:5px;" type="submit"><i class="fas fa-file-excel"></i> Unduh Excel All</button></form></div>
             </div>   
             </div>
@@ -220,7 +220,7 @@ $db      = \Config\Database::connect();
             
             <div class="col-xl-3 col-md-6 mb-4">
 <div class="row">
-<form action="<?= base_url('OrderTransaction/exportpilih') ?>" method="post" lass="form-inline" >
+<form action="<?= base_url('OrderTransaction/tampilmenurut') ?>" method="post" lass="form-inline" >
             <div class="form-group">
 <div class="col-align-self"><select class="custom-select" name="bulan" id="bulan">
                             <option selected>Bulan</option>
@@ -334,35 +334,60 @@ $db      = \Config\Database::connect();
             <?php } ?>
 
             <div class="card shadow mb-4">
+
+
+
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Daftar Transaksi</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Daftar Transaksi Bulan <?= $bln; ?> Tahun <?= $thn; ?></h6>
 
                 </div>
 
                 <div class="card-body">
 
                     <div class="table-responsive">
-                        <table id="server-side-table-ssp" class="table table-bordered" style="width:100%">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-
+                                    <th>No.</th>
                                     <th>Nama Outlet</th>
                                     <th>Waktu Order</th>
                                     <th>Alamat Order</th>
-                                    <th>No Telepon</th>
-                                    <th>Order 5,5 Kg</th>
-                                    <th>Order 12 Kg</th>
-                                    <th>Konfirmasi</th>
-
-
+                                    <th>Nomor Telepon</th>
+                                    <th>Jumlah Order 5,5 Kg</th>
+                                    <th>Jumlah Order 12 Kg</th>
+                                  
                                 </tr>
-
                             </thead>
 
+                            <tbody>
+                                <?php
+                                $db      = \Config\Database::connect();
+                                $builder = $db->table('master_order');
+                                // $builder->like('nama_outlet', 'ADYATMA');
+                                // $builder->where('order_55 >', 0);
+                                $builder->where('bulan =', $bln);
+                                $builder->where('tahun =', $thn);
+                                $query = $builder->get();
+                                $nomor = 0;
+                                foreach ($query->getResult() as $key => $row) { ?>
+                                    <tr>
+                                        <td><?php echo ++$nomor; ?></td>
+                                        <td><?php echo $row->nama_outlet ?></td>
+                                        <td><?php echo $row->waktu_order ?></td>
+                                        <td><?php echo $row->alamat_order ?></td>
+                                        <td><?php echo $row->no_telp ?></td>
+                                        <td><?php echo $row->order_55 ?></td>
+                                        <td><?php echo $row->order_12 ?></td>
+                                       
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
                         </table>
                     </div>
 
                 </div>
+
+
             </div>
 
 
@@ -630,6 +655,6 @@ $db      = \Config\Database::connect();
         </div>
     </div>
 
-
+</div>
 
 <?= $this->include('templates/footer'); ?>

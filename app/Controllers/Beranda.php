@@ -6,13 +6,21 @@ use App\Models\beranda_model;
 
 class Beranda extends BaseController
 {
-	public function __construct()
-	{
+	
+	function __construct(){
 		$this->beranda_model = new beranda_model();
 	}
 
 	public function index()
 	{
-		return view('Beranda/index');
+		$model = new beranda_model();
+       
+
+		$data["title"]      = "Grafik Siswa Lulus Per Tahun";
+        $data["chartSiswa"] = $model->siswaPertahun(); 
+		echo view('Beranda/index', $data);
+       
 	}
 }
+
+

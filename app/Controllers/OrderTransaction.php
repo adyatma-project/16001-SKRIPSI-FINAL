@@ -238,7 +238,9 @@ class OrderTransaction extends BaseController
     {
         $bulan = $_POST['bulan'];
         $tahun = $_POST['tahun'];
-        return view("ordertransaction/tampilmenurut", $bulan, $tahun);
+        $data['bln']= $bulan;
+        $data['thn']= $tahun;
+        return view("ordertransaction/tampilmenurut", $data);
     }
 
 
