@@ -234,6 +234,14 @@ class OrderTransaction extends BaseController
     }
 
 
+    public function tampilmenurut()
+    {
+        $bulan = $_POST['bulan'];
+        $tahun = $_POST['tahun'];
+        return view("ordertransaction/tampilmenurut", $bulan, $tahun);
+    }
+
+
 
 
     public function five()

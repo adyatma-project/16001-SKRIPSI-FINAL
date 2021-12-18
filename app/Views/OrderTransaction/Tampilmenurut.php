@@ -220,7 +220,7 @@ $db      = \Config\Database::connect();
             
             <div class="col-xl-3 col-md-6 mb-4">
 <div class="row">
-<form action="<?= base_url('OrderTransaction/tampilmenurut') ?>" method="post" lass="form-inline" >
+<form action="<?= base_url('OrderTransaction/exportpilih') ?>" method="post" lass="form-inline" >
             <div class="form-group">
 <div class="col-align-self"><select class="custom-select" name="bulan" id="bulan">
                             <option selected>Bulan</option>

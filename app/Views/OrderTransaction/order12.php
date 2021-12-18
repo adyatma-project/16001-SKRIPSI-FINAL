@@ -360,7 +360,7 @@ $db      = \Config\Database::connect();
                                         <td>
                                             <div class="btn">
                                                 <a href="<?php echo base_url('ordertransaction/konfirmasi/' . $row->id_order); ?>" class="btn btn-sm btn-warning" onclick="return confirm('Apakah Anda yakin ingin mengkonfirmasi order ini?');">
-                                                    Konfrmasi ?
+                                                    Konfirmasi ?
                                                 </a>
                                             </div>
                                         </td>
